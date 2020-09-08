@@ -1,3 +1,3 @@
 #!/bin/bash
-set -e
+set -x
 exec gunicorn --config ./docker/gunicorn.config.py wsgi:hello
