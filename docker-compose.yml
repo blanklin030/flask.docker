@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  server:
+    image: custom-gunicorn
+    network_mode: ${NETWORK_MODE}
+    ports: 
+      - 5000:5000
+    volumes: 
+      - ./logs:/app/logs
+    environment: 
+      - GUNICORN_RUNMODE=${GUNICORN_RUNMODE}
+
+  proxy:
+    image: nginx
+    volumes: 
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+      - ./logs:/var/log/nginx
+    network_mode: ${NETWORK_MODE}
+    links: 
+      - server:server
+    ports: 
+      - 8888:8888
